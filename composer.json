@@ -1,0 +1,30 @@
+{
+    "name": "mirasvit/module-rewards-hyva",
+    "description": "Reward Points - Hyva",
+    "type": "magento2-module",
+    "version": "0.0.7",
+    "require": {
+        "magento/framework": "*",
+        "hyva-themes/magento2-compat-module-fallback": "*",
+        "mirasvit/module-rewards": ">=3.0.51|dev-master|dev-develop"
+    },
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "src/MirasvitRewards/registration.php",
+            "src/MirasvitRewardsBehavior/registration.php",
+            "src/MirasvitRewardsCheckout/registration.php",
+            "src/MirasvitRewardsCustomerAccount/registration.php",
+            "src/MirasvitRewardsCatalog/registration.php"
+        ],
+        "psr-4": {
+            "Hyva\\MirasvitRewards\\": "src/MirasvitRewards",
+            "Hyva\\MirasvitRewardsBehavior\\": "src/MirasvitRewardsBehavior",
+            "Hyva\\MirasvitRewardsCheckout\\": "src/MirasvitRewardsCheckout",
+            "Hyva\\MirasvitRewardsCustomerAccount\\": "src/MirasvitRewardsCustomerAccount",
+            "Hyva\\MirasvitRewardsCatalog\\": "src/MirasvitRewardsCatalog"
+        }
+    }
+}
