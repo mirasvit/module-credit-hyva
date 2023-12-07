@@ -1,0 +1,128 @@
+<?php
+//@codingStandardsIgnoreFile
+/** @var \Mirasvit\Credit\Block\Checkout\Cart\Credit $block */
+
+/** @var \Magento\Framework\Pricing\Helper\Data $pricingHelper */
+$pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+
+$useCreditLabel    = __('Use Store Credit');
+$useCreditLabelMax = __('Use Max Store Credit');
+?>
+
+<?php if ($block->isAllowed()): ?>
+
+    <?php if ($block->isPaypal()): ?>
+        <div id="block-credit-form" class="block shipping" data-mage-init='{"collapsible":{"openedState": "active", "saveState": true}}'>
+        <div class="title" data-role="title">
+            <strong id="block-credit-form-heading" role="heading" aria-level="2">
+                <?php echo __('Use Store Credits') ?>
+            </strong>
+        </div>
+        <div id="block-credit-form" class="content" data-role="content" aria-labelledby="block-credit-form-heading">
+    <?php endif; ?>
+
+    <form id="credit-form" action="<?= $block->getUrl('credit/checkout/applyPost') ?>" method="post">
+        <div class="discount cart-totals my-4 card">
+            <h2><?= __('Use Store Credit') ?></h2>
+            <div class="discount-form text-secondary text-sm">
+                <p><?= __('Your current balance is: <b>%1</b>', $block->getBalanceAmount()) ?></p>
+
+                <?php if ($block->getUsedAmount() == 0 && $block->getAmountToUse() > 0): ?>
+                    <input type="text" name="credit-amount" id="credit-amount" value="" onchange="updateLabel()" onkeyup="updateLabel()">
+                    <p></p>
+                <?php endif ?>
+
+                <input type="hidden" name="remove-credit" id="remove-credit" value="0">
+                <input type="hidden" name="is_paypal" id="is_paypal" value="<?= $block->isPaypal(); ?>">
+                <input type="hidden" name="is_checkout" id="is_checkout" value="<?= $block->isCheckout(); ?>">
+
+                <div class="buttons-set my-3 flex justify-end">
+                    <?php if ($block->getUsedAmount() == 0 && $block->getAmountToUse() > 0): ?>
+                        <button type="button" class="btn btn-secondary px-2 py-1 mx-1" onclick="creditFormSubmit(false)">
+                    <span><span class="credit-button-label" id="mst-credit-button-label">
+                        <?= $useCreditLabelMax ?>
+                    </span></span>
+                        </button>
+                    <?php elseif ($block->getUsedAmount() > 0): ?>
+                        <button type="button" class="btn btn-secondary px-2 py-1 mx-1" onclick="creditFormSubmit(true)">
+                            <span><span><?= __('Cancel') ?></span></span>
+                        </button>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        var buttonLabel = "<?= $useCreditLabel; ?>";
+        var buttonLabelMax = "<?= $useCreditLabelMax; ?>";
+
+        function updateLabel() {
+
+            if (document.getElementById('credit-amount').value == '' || document.getElementById('credit-amount').value == 0) {
+                document.getElementById('mst-credit-button-label').innerHTML = buttonLabelMax;
+            } else {
+                document.getElementById('mst-credit-button-label').innerHTML = buttonLabel;
+            }
+        }
+
+        function creditFormSubmit1(isRemove) {
+            hyva.getFormKey();
+            if (isRemove) {
+                document.getElementById('remove-credit').value = 1;
+            } else {
+                document.getElementById('remove-credit').value = 0;
+            }
+            document.forms['credit-form'].submit();
+        }
+
+        function creditFormSubmit(isRemove) {
+            if (isRemove) {
+                document.getElementById('remove-credit').value = 1;
+            } else {
+                document.getElementById('remove-credit').value = 0;
+            }
+            const formData = new FormData(document.querySelector('#credit-form'));
+
+            fetch(
+                document.querySelector('#credit-form').getAttribute('action') + '?isAjax=true' + '&form_key=' + hyva.getFormKey(),
+                {
+                    method:  'post',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body:    formData
+                }
+            ).then(
+                function (response) {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else if (response.ok) {
+                        return response.json();
+                    } else {
+                        window.dispatchMessages([{type: "warning", text: "Post request failed. " + response.statusText}], 5000);
+                    }
+                }
+            ).then(function (result) {
+
+                if (result.message) {
+                    window.dispatchMessages([
+                        {
+                            type: "success",
+                            text: result.message
+                        }
+                    ], 3000);
+                }
+                this.fetchTotals();
+                this.isCreditApplied(true)
+            }.bind(this));
+        }
+
+    </script>
+    <?php if ($block->isPaypal()): ?>
+        </div>
+        </div>
+    <?php endif; ?>
+
+
+<?php endif; ?>
