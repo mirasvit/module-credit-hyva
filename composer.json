@@ -6,7 +6,7 @@
     "require": {
         "magento/framework": "*",
         "hyva-themes/magento2-compat-module-fallback": "*",
-        "mirasvit/module-credit": ">=1.2.14|dev-master|dev-develop"
+        "mirasvit/module-credit": ">=1.2.15|dev-master|dev-develop"
     },
     "license": [
         "proprietary"
