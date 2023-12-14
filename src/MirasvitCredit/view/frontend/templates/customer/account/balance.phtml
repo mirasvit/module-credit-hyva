@@ -1,12 +1,14 @@
 <?php
 /** @var \Mirasvit\Credit\Block\Customer\Account $block */
+/** @var \Magento\Framework\Escaper $escaper */
 $balance = $block->getBalance();
 
 $balanceAmount = $block->formatPrice($balance->getAmount(), $block->getStoreCurrencyCode(), $balance->getCurrencyCode());
+$formId = 'form-validate';
 ?>
 
 <div class="block credit__account-balance">
-    <div class="block-title m-4">
+    <div class="block-title text-2xl m-4">
         <strong><?= __('Balance') ?></strong>
     </div>
     <div class="block-content m-4">
@@ -14,17 +16,28 @@ $balanceAmount = $block->formatPrice($balance->getAmount(), $block->getStoreCurr
         <?= __('Current credit balance: <b>%1</b>', $balanceAmount) ?>
 
         <div class="credit__account-subscription">
-            <form action="<?= $block->getUrl('credit/account/subscribe') ?>" method="post" id="form-validate">
-                <div>
-                    <input type="checkbox" id="credit_subscription" class="checkbox" name="is_subscribed" value="1"
-                           <?php if ($balance->getIsSubscribed()): ?>checked="checked"<?php endif ?> onchange="creditSubscribtion()">
+            <form class="form contact card lg:w-1/2 md:w-2/3"
+                  action="<?= $escaper->escapeUrl($block->getUrl('credit/account/subscribe')) ?>"
+                  id="<?= $escaper->escapeHtmlAttr($formId) ?>"
+                  method="post"
+                  x-data="saveSubscription()"
+                  @submit.prevent="submitForm()"
+            >
+                <div class="flex gap-2 flex-col">
+                    <input
+                        type='checkbox'
+                        id="credit_subscription"
+                        name="is_subscribed"
+                        class="mr-2"
+                        @click="creditSubscribtion"
+                        <?= $balance->getIsSubscribed() ? 'checked' : '' ?>
 
                     <label for="credit_subscription">
                         <?= __('Subscribe to email notifications') ?>
                     </label>
 
-                    &nbsp;&nbsp;
-                    <button id="subscribe_button" type="submit" class="button" style="display: none;">
+                    &nbsp;&nbsp;<?= $block->getBlockHtml('formkey') ?>
+                    <button id="subscribe_button" type="submit" class="btn btn-primary text-center justify-center" style="display: none;" >
                         <span><?= __('Save') ?></span>
                     </button>
                 </div>
@@ -39,17 +52,23 @@ $balanceAmount = $block->formatPrice($balance->getAmount(), $block->getStoreCurr
 </div>
 
 <script>
-        function sendToFriend () {
-            var dataForm = $('#form-send2friend');
-            dataForm.mage('validation', {});
+    function creditSubscribtion() {
+        var subscribeButton = document.getElementById('credit_subscription').checked;
+
+        if (subscribeButton != !document.getElementById('credit_subscription').checked) {
+            document.getElementById('subscribe_button').style.display = 'block';
+        } else {
+            document.getElementById('subscribe_button').style.display = 'none';
         }
-        function creditSubscribtion() {
-            var subscribeButton = document.getElementById('credit_subscription:checked').length;
-            if (subscribeButton != document.getElementById('credit_subscription:checked').length) {
-                $('#subscribe_button').show();
-            }
-            else {
-                $('#subscribe_button').hide();
+    }
+
+    function saveSubscription() {
+        return {
+            submitForm() {
+                // Do not rename $form, the variable is expected to be declared in the recaptcha output
+                const $form = document.querySelector('#<?= $escaper->escapeJs($formId) ?>');
+                $form.submit();
             }
         }
+    }
 </script>

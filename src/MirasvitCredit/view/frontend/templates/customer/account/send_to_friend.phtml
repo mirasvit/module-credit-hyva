@@ -51,23 +51,27 @@ $formData = $block->getSend2FriendFormData();
             </fieldset>
 
             <div class="buttons-set">
-                <button type="submit" class="action submit primary btn btn-secondary px-2 py-1 mx-1" ><?= __('Send') ?></button>
+                <button type="submit" class="action submit primary btn btn-secondary px-2 py-1 mx-1" onsubmit="sendToFriend()"><?= __('Send') ?></button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    require([
-        'jquery'
-    ], function ($) {
-        'use strict';
+    // require([
+    //     'jquery'
+    // ], function ($) {
+    //     'use strict';
 
-        $('#form-send2friend').on('submit', function () {
-            if ($(this).valid()) {
-                $(this).find('.submit').attr('disabled', true);
-            }
-        });
-    });
+        function sendToFriend () {
+            var dataForm = $('#form-send2friend');
+            dataForm.mage('validation', {});
+        }
+        // $('#form-send2friend').on('submit', function () {
+        //     if ($(this).valid()) {
+        //         $(this).find('.submit').attr('disabled', true);
+        //     }
+        // });
+    // });
 </script>
 
