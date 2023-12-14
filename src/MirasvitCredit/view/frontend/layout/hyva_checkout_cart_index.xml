@@ -8,14 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="checkout.cart.totals">
-            <block name="credit" class="Mirasvit\Credit\Block\Checkout\Cart\CreditTotalHyva" template="Hyva_MirasvitCredit::checkout/cart/credit-total.phtml"/>
+            <block name="credit" class="Mirasvit\MirasvitCredit\Block\Checkout\Cart\CreditTotal" template="Hyva_MirasvitCredit::checkout/cart/credit-total.phtml"/>
         </referenceBlock>
-
-        <referenceBlock name="credit.cart">
-            <block name="credit.usecredit" class="Mirasvit\Credit\Block\Checkout\Cart\Credit" template="Hyva_MirasvitCredit::checkout/cart/credit.phtml"/>
-        </referenceBlock>
-        <!--<referenceBlock name="checkout.cart.totals.container">-->
-            <!--<block name="credit.usecredit" class="Mirasvit\Credit\Block\Checkout\Cart\Credit" template="Hyva_MirasvitCredit::checkout/cart/credit.phtml"/>-->
-        <!--</referenceBlock>-->
     </body>
 </page>

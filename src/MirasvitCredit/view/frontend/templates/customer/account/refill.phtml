@@ -17,9 +17,7 @@ $product = $block->getRefillProduct();
                   id="form-send2friend">
                 <fieldset class="fieldset info">
                     <?= $block->getBlockHtml('formkey') ?>
-
                     <?= $product->getDescription() ?>
-
                     <input type="hidden" name="product" value="<?= $block->getRefillProduct()->getId() ?>" />
 
                     <?php if ($block->getOptions()): ?>
