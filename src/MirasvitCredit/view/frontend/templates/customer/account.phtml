@@ -1,0 +1,13 @@
+<div class="credit__account">
+    <?= $block->getChildHtml('balance') ?>
+
+    <?= $block->getChildHtml('transactions') ?>
+
+    <ul class="credit__account-blocks" style="display: flex">
+        <li style="width: 50%"><?= $block->getChildHtml('refill') ?></li>
+
+        <?php if ($block->getBalance()->getAmount() > 0): ?>
+            <li  style="width: 50%"><?= $block->getChildHtml('send_to_friend') ?></li>
+        <?php endif ?>
+    </ul>
+</div>

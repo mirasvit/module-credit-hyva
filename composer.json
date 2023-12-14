@@ -1,0 +1,22 @@
+{
+    "name": "mirasvit/module-credit-hyva",
+    "description": "Store Credit - Hyva",
+    "type": "magento2-module",
+    "version": "0.0.1",
+    "require": {
+        "magento/framework": "*",
+        "hyva-themes/magento2-compat-module-fallback": "*",
+        "mirasvit/module-credit": ">=1.2.16|dev-master|dev-develop"
+    },
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "src/MirasvitCredit/registration.php"
+        ],
+        "psr-4": {
+            "Hyva\\MirasvitCredit\\": "src/MirasvitCredit"
+        }
+    }
+}
