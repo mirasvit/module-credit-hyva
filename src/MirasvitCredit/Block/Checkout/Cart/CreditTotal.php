@@ -1,5 +1,5 @@
 <?php
-namespace Mirasvit\MirasvitCredit\Block\Checkout\Cart;
+namespace Hyva\MirasvitCredit\Block\Checkout\Cart;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session as CustomerSession;

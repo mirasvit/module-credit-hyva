@@ -12,11 +12,10 @@ $formId = 'form-validate';
         <strong><?= __('Balance') ?></strong>
     </div>
     <div class="block-content m-4">
-
         <?= __('Current credit balance: <b>%1</b>', $balanceAmount) ?>
-
-        <div class="credit__account-subscription">
+        <div class="credit__account-subscription" style="display: grid">
             <form class="form contact card lg:w-1/2 md:w-2/3"
+                  style="float: left"
                   action="<?= $escaper->escapeUrl($block->getUrl('credit/account/subscribe')) ?>"
                   id="<?= $escaper->escapeHtmlAttr($formId) ?>"
                   method="post"
@@ -43,6 +42,7 @@ $formId = 'form-validate';
                 </div>
             </form>
         </div>
+
         <?php if ($block->hasSeveralBalances()): ?>
             <p>
                 <?= __('* You also have credits in another currency') ?>
