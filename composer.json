@@ -2,7 +2,7 @@
     "name": "mirasvit/module-credit-hyva",
     "description": "Store Credit - Hyva",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "require": {
         "magento/framework": "*",
         "hyva-themes/magento2-compat-module-fallback": "*",

@@ -1,0 +1,19 @@
+<?php
+use Magento\Framework\Escaper;
+/** @var Escaper $escaper */
+/** @var \Mirasvit\Credit\Block\Product\View\Options $block */
+?>
+
+<?php if ($block->isShowOptions()): ?>
+<?php
+$productId = $block->escapeHtml($block->getProduct()->getId());
+?>
+<div class="fieldset">
+    <div class="field">
+        <label class="label" for="creditOption"><span><?= $escaper->escapeHtml(__('Store Credits')); ?></span></label>
+        <div class="control mb-6">
+            <?= $block->getChildHtml('product.credit.options.'.$block->getOptionType()) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
